@@ -40,7 +40,7 @@ int main(int argc, char const* argv[]) {
         largestPalindrome = number;
       }
 
-      std::cout << "Number: " << number << " | " << valid << '\n';
+      // std::cout << "Number: " << number << " | " << valid << '\n';
     }
   }
   end = clock();
