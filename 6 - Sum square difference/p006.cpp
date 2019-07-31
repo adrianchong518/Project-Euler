@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "utils.h"
+#include "timer.h"
 
 int main(int argc, char const *argv[]) {
   Timer timer;
@@ -24,7 +24,7 @@ int main(int argc, char const *argv[]) {
   timer.endTimer();
 
   std::cout << "Difference: " << difference << '\n';
-  std::cout << "Time taken: " << timer.time << " ms\n";
+  std::cout << "Time taken: " << timer.getDuration() << " ms\n";
 
   return 0;
 }

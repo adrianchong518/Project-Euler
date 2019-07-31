@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
   }
 
   for (int i = 1; i < max; i++) {
-    if (i % 15 == 0 || i % 5 == 0 | i % 3 == 0) {
+    if (i % 5 == 0 | i % 3 == 0) {
       sum += i;
     }
   }

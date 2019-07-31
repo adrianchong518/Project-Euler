@@ -1,6 +1,8 @@
 #include <cmath>
 #include <iostream>
 
+#include "timer.h"
+
 long findPrimeLargestFactor(long number) {
   long checkMax = 3;
   long possibleLargestFactor[2];
@@ -34,7 +36,10 @@ long findPrimeLargestFactor(long number) {
 }
 
 int main(int argc, char const *argv[]) {
+  Timer timer;
+
   long number;
+
   if (argc < 2) {
     std::cerr << "Not enough arguments: Needed a numder to factorize...\n";
     return -1;
@@ -42,9 +47,12 @@ int main(int argc, char const *argv[]) {
     number = atol(argv[1]);
   }
 
+  timer.startTimer();
   long largestPrimeFactor = findPrimeLargestFactor(number);
+  timer.endTimer();
 
   std::cout << largestPrimeFactor << '\n';
+  std::cout << "Time taken: " << timer.getDuration() << " ms\n";
 
   return 0;
 }

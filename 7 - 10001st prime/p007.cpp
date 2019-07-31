@@ -4,9 +4,9 @@
 #include <string>
 #include <vector>
 
-#include "utils.h"
+#include "timer.h"
 
-void readPrimesFile(std::vector<long> &primes,
+void readPrimesFile(std::vector<unsigned long> &primes,
                     const std::string &primesFilename) {
   std::cout << "Reading primes from file: " << primesFilename << '\n';
 
@@ -14,7 +14,7 @@ void readPrimesFile(std::vector<long> &primes,
   primesFile.open(primesFilename);
 
   if (primesFile.is_open()) {
-    long prime;
+    unsigned long prime;
     while (primesFile >> prime) {
       primes.push_back(prime);
     }
@@ -25,7 +25,7 @@ void readPrimesFile(std::vector<long> &primes,
   std::cout << "Done reading primes\n";
 }
 
-void writePrimesFile(const std::vector<long> &primes,
+void writePrimesFile(const std::vector<unsigned long> &primes,
                      const std::string &primesFilename) {
   std::cout << "Writing primes to file: " << primesFilename << '\n';
 
@@ -33,7 +33,7 @@ void writePrimesFile(const std::vector<long> &primes,
   primesFile.open(primesFilename, std::ios::out | std::ios::trunc);
 
   if (primesFile.is_open()) {
-    for (auto prime : primes) {
+    for (unsigned long prime : primes) {
       primesFile << prime << '\n';
     }
   }
@@ -44,13 +44,13 @@ void writePrimesFile(const std::vector<long> &primes,
 }
 
 int main(int argc, char const *argv[]) {
-  long indexOfPrime;
+  unsigned long indexOfPrime;
 
   bool hasPrimeFile = false;
   std::string primesFilename;
 
-  std::vector<long> primes;
-  long testForPrime;
+  std::vector<unsigned long> primes;
+  unsigned long testForPrime;
 
   Timer timer;
 
@@ -70,7 +70,11 @@ int main(int argc, char const *argv[]) {
   // Populate primes vector with file (if provided)
   if (hasPrimeFile) {
     readPrimesFile(primes, primesFilename);
-    testForPrime = *(primes.end() - 1) + 2;
+  }
+
+  // Get the first number to test for primes
+  if (!primes.empty()) {
+    testForPrime = primes.back() + 2;
   } else {
     primes.push_back(2);
     testForPrime = 3;
@@ -82,9 +86,9 @@ int main(int argc, char const *argv[]) {
   timer.startTimer();
   while (primes.size() < indexOfPrime) {
     bool isPrime = true;
-    long testMax = floor(sqrt(testForPrime));
+    unsigned long testMax = floor(sqrt(testForPrime));
 
-    for (auto prime : primes) {
+    for (unsigned long prime : primes) {
       if (prime > testMax) {
         break;
       }
@@ -108,9 +112,12 @@ int main(int argc, char const *argv[]) {
 
   std::cout << "Prime " << indexOfPrime << " is found - "
             << primes[indexOfPrime - 1] << '\n';
-  std::cout << "Time taken: " << timer.time << " ms\n";
+  std::cout << "Time taken to calulate primes: " << timer.getDuration()
+            << " ms\n";
 
-  writePrimesFile(primes, primesFilename);
+  if (hasPrimeFile) {
+    writePrimesFile(primes, primesFilename);
+  }
 
   return 0;
 }

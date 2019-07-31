@@ -1,8 +1,6 @@
 #include <iostream>
 
-#include "utils.h"
-
-Timer timer;
+#include "timer.h"
 
 long long findLCM(const long long a, const long long b) {
   long long lcm;
@@ -26,7 +24,10 @@ long long findLCM(const long long a, const long long b) {
 }
 
 int main(int argc, char const *argv[]) {
+  Timer timer;
+
   long max;
+
   if (argc < 2) {
     std::cerr << "Not enough arguments: Require a maximum limit\n";
     return -1;
@@ -42,7 +43,7 @@ int main(int argc, char const *argv[]) {
   timer.endTimer();
 
   std::cout << "Smallest Multiple: " << smallestMultiple << '\n';
-  std::cout << "Time taken: " << timer.time << " ms\n";
+  std::cout << "Time taken: " << timer.getDuration() << " ms\n";
 
   return 0;
 }

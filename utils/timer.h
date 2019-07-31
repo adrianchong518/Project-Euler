@@ -1,24 +1,28 @@
 #pragma once
 
-#include <ctime>
-#include <iostream>
+#include <chrono>
 
 class Timer {
  private:
-  clock_t start;
-  clock_t end;
+  std::chrono::high_resolution_clock::time_point start;
+  std::chrono::high_resolution_clock::time_point end;
 
- public:
-  double time;
+  std::chrono::duration<long double, std::milli> duration;
 
  public:
   void startTimer();
   void endTimer();
+
+  const long double getDuration();
 };
 
-void Timer::startTimer() { start = clock(); }
+void Timer::startTimer() {
+  this->start = std::chrono::high_resolution_clock::now();
+}
 
 void Timer::endTimer() {
-  end = clock();
-  time = (double)(end - start) / CLK_TCK;
+  this->end = std::chrono::high_resolution_clock::now();
+  this->duration = this->end - this->start;
 }
+
+const long double Timer::getDuration() { return this->duration.count(); }

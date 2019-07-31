@@ -4,14 +4,15 @@
 #include <iostream>
 #include <string>
 
+#include "timer.h"
+
 bool isPalindrome(const std::string& number) {
   std::string reverseNumber(number.rbegin(), number.rend());
   return number.compare(reverseNumber) == 0;
 }
 
 int main(int argc, char const* argv[]) {
-  clock_t start;
-  clock_t end;
+  Timer timer;
 
   int factorNumDigit;
   if (argc < 2) {
@@ -29,7 +30,7 @@ int main(int argc, char const* argv[]) {
   std::cout << "Start finding largest palindromial number...\n";
   std::cout << "(By a bruteforce algorithm)\n";
 
-  start = clock();
+  timer.startTimer();
   for (int i = factorStart; i <= factorEnd; i++) {
     for (int j = factorStart; j <= i; j++) {
       long number = i * j;
@@ -43,12 +44,10 @@ int main(int argc, char const* argv[]) {
       // std::cout << "Number: " << number << " | " << valid << '\n';
     }
   }
-  end = clock();
-
-  double totalTime = ((double)(end - start)) / CLK_TCK;
+  timer.endTimer();
 
   std::cout << "Largest Palindrome: " << largestPalindrome << '\n';
-  std::cout << "Time taken: " << totalTime << " ms\n";
+  std::cout << "Time taken: " << timer.getDuration() << " ms\n";
 
   return 0;
 }
