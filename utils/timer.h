@@ -3,26 +3,17 @@
 #include <chrono>
 
 class Timer {
- private:
-  std::chrono::high_resolution_clock::time_point start;
-  std::chrono::high_resolution_clock::time_point end;
-
-  std::chrono::duration<long double, std::milli> duration;
-
  public:
-  void startTimer();
-  void endTimer();
+  void startTimer() { m_start = std::chrono::high_resolution_clock::now(); }
 
-  const long double getDuration();
+  void endTimer() {
+    m_duration = std::chrono::high_resolution_clock::now() - m_start;
+  }
+
+  const long double getDuration() { return m_duration.count(); }
+
+ private:
+  std::chrono::high_resolution_clock::time_point m_start;
+
+  std::chrono::duration<long double, std::milli> m_duration;
 };
-
-void Timer::startTimer() {
-  this->start = std::chrono::high_resolution_clock::now();
-}
-
-void Timer::endTimer() {
-  this->end = std::chrono::high_resolution_clock::now();
-  this->duration = this->end - this->start;
-}
-
-const long double Timer::getDuration() { return this->duration.count(); }
